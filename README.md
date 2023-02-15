@@ -15,11 +15,13 @@ pip install biokit
 ## Usage
 
 ```py
-from biokit import BaseClass
-from biokit import base_function
+import neurokit2 as nk
+from biokit.features.ecg.quality import compute_zhao
 
-BaseClass().base_method()
-base_function()
+sampling_rate=1000
+ecg = nk.ecg_simulate(duration=15, sampling_rate=1000, heart_rate=80)
+zhao_features = compute_zhao(ecg, sampling_rate)
+
 ```
 
 ```bash
