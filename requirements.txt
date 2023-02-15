@@ -8,3 +8,4 @@ tsfel
 pandas
 numpy
 scipy
+PyWavelets
