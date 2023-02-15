@@ -12,7 +12,7 @@ from scipy.signal import find_peaks
 
 
 def compute_zhao(
-    ecg_cleaned: str,
+    ecg_cleaned: np.ndarray,
     sampling_rate: int,
     first_method: str = "pantompkins1985",
     second_method: str = "kalidas2017",
