@@ -1,5 +1,5 @@
 .ONESHELL:
-ENV_PREFIX=$(shell python -c "if __import__('pathlib').Path('.venv/bin/pip').exists(): print('.venv/bin/')")
+ENV_PREFIX=$(shell python -c "if __import__('pathlib').Path('venv/bin/pip').exists(): print('venv/bin/')")
 USING_POETRY=$(shell grep "tool.poetry" pyproject.toml && echo "yes")
 
 .PHONY: help
@@ -67,12 +67,12 @@ clean:            ## Clean unused files.
 virtualenv:       ## Create a virtual environment.
 	@if [ "$(USING_POETRY)" ]; then poetry install && exit; fi
 	@echo "creating virtualenv ..."
-	@rm -rf .venv
-	@python3 -m venv .venv
-	@./.venv/bin/pip install -U pip
-	@./.venv/bin/pip install -e .[test]
+	@rm -rf venv
+	@python3 -m venv venv
+	@./venv/bin/pip install -U pip
+	@./venv/bin/pip install -e .[test]
 	@echo
-	@echo "!!! Please run 'source .venv/bin/activate' to enable the environment !!!"
+	@echo "!!! Please run 'source venv/bin/activate' to enable the environment !!!"
 
 .PHONY: release
 release:          ## Create a new tag for release.
@@ -97,7 +97,7 @@ docs:             ## Build the documentation.
 switch-to-poetry: ## Switch to poetry package manager.
 	@echo "Switching to poetry ..."
 	@if ! poetry --version > /dev/null; then echo 'poetry is required, install from https://python-poetry.org/'; exit 1; fi
-	@rm -rf .venv
+	@rm -rf venv
 	@poetry init --no-interaction --name=a_flask_test --author=rochacbruno
 	@echo "" >> pyproject.toml
 	@echo "[tool.poetry.scripts]" >> pyproject.toml
