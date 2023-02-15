@@ -50,6 +50,16 @@ def compute_zhao(
 def compute_rodrigues(
     ecg_cleaned: np.ndarray, signal_duration: float = 10.0
 ) -> Dict[str, float]:
+    """Extracts the following features from a signal: standard deviation,
+    peaks rate, peaks distance, amplitude difference and zero crossing rate.
+    Args:
+        sample (np.ndarray): a time series.
+        signal_duration (float, optional): actual duration of the signal
+        (seconds). Defaults to 10.
+    Returns:
+        dict: A dictionary containing the five features, distinguished by the
+        keys STD, PR, PD, AD and ZCR respectively.
+    """
     # STD - Standard Deviation
     std = tsfel.calc_std(ecg_cleaned)
     # ZCR - Zero Crossing Rate
@@ -71,6 +81,8 @@ def compute_rodrigues(
     # peaksrate = len(peaksabovestd)
 
     # AD - Amplitude Difference
+    # find_peaks from scipy.signal is more appropriate here than the neurokit
+    # version because it is easier to configure in this context.
     troughsbelowstd, _ = find_peaks(-sample_smooth, height=stdsmooth)
     sum_max = sum(ecg_cleaned[peaksabovestd])
     sum_min = sum(ecg_cleaned[troughsbelowstd])
